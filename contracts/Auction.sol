@@ -113,10 +113,8 @@ contract Auction{
         require(auctionState == State.Canceled || block.number > endBlock, "The auction has not finished!");
         require(msg.sender == owner || bids[msg.sender] > 0, "You have already withdrawn your funds or you not is owner!");
     
-
         address payable recipient;
         uint value; 
-
         if(auctionState == State.Canceled){ //auction was canceled
             recipient = payable(msg.sender);
             /**@dev the bids[] is mapping value was deposit. */
@@ -135,7 +133,6 @@ contract Auction{
                }
             }
         }
-
         bids[recipient] = 0;
         recipient.transfer(value);
         auctionState = State.Ended;
