@@ -23,6 +23,9 @@ contract Auction{
     //declare state variable for increment peoples for lauching the auction.
     uint bidIncrement;
 
+    string public _name = "Auction";
+
+
     constructor(){
         owner = payable(msg.sender);
         auctionState = State.Running;
@@ -82,5 +85,7 @@ contract Auction{
             highestBidder = payable(msg.sender);
         }
     }
+
+ 
 
 }
