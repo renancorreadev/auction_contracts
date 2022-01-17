@@ -851,12 +851,12 @@
     "1337": {
       "events": {},
       "links": {},
-      "address": "0x6fa9e3d6a71698454F71049613B88017d33545F3",
-      "transactionHash": "0x0010e41cf4a17e5ebd5b2dff167b9189bf427a9d0ee15ce42499b008eb1d1c58"
+      "address": "0x69742c40B965C8079D01c35b25c180270afb88E5",
+      "transactionHash": "0xa625edb7f07174ddbb08e917d7f53560b6f32ac2b7566e46a8c19e693d0771a0"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-01-17T14:41:54.205Z",
+  "updatedAt": "2022-01-17T15:56:49.839Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

@@ -101,7 +101,8 @@ contract Auction{
 
     function finishAuction() public {
         require(auctionState == State.Canceled || block.number > endBlock, "The auction has not finished!");
-        require(msg.sender == owner || bids[msg.sender] > 0, "The address call not is owner!");
+        require(msg.sender == owner || bids[msg.sender] > 0, "You have already withdrawn your funds or you not is owner!");
+    
 
         address payable recipient;
         uint value; 
@@ -125,6 +126,7 @@ contract Auction{
             }
         }
 
+        bids[recipient] = 0;
         recipient.transfer(value);
         auctionState = State.Ended;
         emit EndAuction();

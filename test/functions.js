@@ -5,20 +5,30 @@
 
 //instance contract deployed
 /**
- * const con = await Auction.deployed()
+const con = await Auction.deployed()
 
-//get the state of the auction
-const state = await con.auctionState()
+//get state 
+var state = await con.auctionState()
+var state_ = state.toString()
 
-//convert state to string
-const stateAuction = state.toString()
+//function to return state in string
  
-//function to return state in string format.
-function stateNow(){ if(stateAuction == 1){return 'Running'} else if(stateAuction == 2){return 'Ended'} else if(stateAuction == 3){return 'Canceled'}}
-
+ 
 //Send ether to placebid function
 con.placeBid({ from: accounts[1], value: '1000000000000000000' })
  
 //Finished auction (ended)
-await con.finishAuction({from : accounts[0]})
+await con.finishAuction({from : accounts[1]})
+
+//cancel auction (canceled)
+await con.cancelAuction({from : accounts[0]})
  */
+const stateNow = () => {
+  if (state_ == 1) {
+    return 'Running'
+  } else if (state_ == 2) {
+    return 'Ended'
+  } else if (state_ == 3) {
+    return 'Canceled'
+  }
+}
