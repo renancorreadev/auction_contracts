@@ -23,4 +23,14 @@ contract('Auction', (accounts) => {
       assert.equal(owner, accounts[0])
     })
   })
+
+  describe('Add Wei to PlaceBid function. ', () => {
+    it('should the send wei to placebid', async () => {
+      const tx = await auction.placeBid({
+        from: accounts[1],
+        value: '455',
+      })
+      assert.isOk(tx, 'Sucess')
+    })
+  })
 })

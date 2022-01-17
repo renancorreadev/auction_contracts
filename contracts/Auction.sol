@@ -25,7 +25,7 @@ contract Auction{
 
     string public _name = "Auction";
 
-
+    receive() external payable {}
     constructor(){
         owner = payable(msg.sender);
         auctionState = State.Running;
@@ -70,7 +70,7 @@ contract Auction{
         }
     }
 
-    function placeBid() public payable notOwner afterStart beforeEnd {
+    function placeBid() external payable notOwner afterStart beforeEnd {
         require(auctionState == State.Running);
         require(msg.value >= 100); //min 100wei
         
