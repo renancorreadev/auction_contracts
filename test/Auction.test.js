@@ -1,4 +1,4 @@
-const { assert } = require('chai')
+const { assert, expect } = require('chai')
 const Auction = artifacts.require('Auction')
 require('chai').use(require('chai-as-promised')).should()
 
@@ -25,12 +25,31 @@ contract('Auction', (accounts) => {
   })
 
   describe('Add Wei to PlaceBid function. ', () => {
+    it('should check if msg.sender notOwner', async () => {
+      const call_address = accounts[1]
+      const tx = await auction.placeBid({
+        from: call_address,
+        value: '500',
+      })
+      assert.isOk(tx, 'Sucess the call Address not Owner')
+    })
+
     it('should the send wei to placebid', async () => {
       const tx = await auction.placeBid({
         from: accounts[1],
-        value: '455',
+        value: '1000000000',
       })
       assert.isOk(tx, 'Sucess')
+    })
+  })
+
+  describe('Cancel to Auction', () => {
+    it('should the cancel auction', async () => {
+      const msg_sender = accounts[0]
+      await auction.cancelAuction({ from: msg_sender })
+      const stateAuction = await auction.auctionState()
+      stateAuction.toString().should.equal('3')
+      //Verify if call is owner
     })
   })
 })

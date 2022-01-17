@@ -40,6 +40,8 @@ contract Auction{
 
     }
 
+    event AuctionCanceled();
+
     //modifier for verift if msg.sender not owner
     modifier  notOwner() {
         require(msg.sender != owner); 
@@ -47,12 +49,17 @@ contract Auction{
     }
     //modifier for verift if time is start
     modifier afterStart(){
-        require(block.number >= startBlock);
+        require(block.number >= startBlock,"Auction has not started!");
         _;
     }
     //modifier for verift if time is end 
     modifier beforeEnd(){
-        require(block.number <= endBlock);
+        require(block.number <= endBlock, "The auction has ended!");
+        _;
+    }
+    //modifier to check if msg.sender is owner
+    modifier onlyOwner(){
+        require(msg.sender == owner, "The address call not is owner!");
         _;
     }
 
@@ -68,6 +75,11 @@ contract Auction{
         }else{
             return b;
         }
+    }
+
+    function cancelAuction() public  onlyOwner  { 
+       auctionState = State.Canceled;
+       emit AuctionCanceled();
     }
 
     function placeBid() external payable notOwner afterStart beforeEnd {
