@@ -1,5 +1,5 @@
-const Auction = artifacts.require('Auction')
+const AuctionCreator = artifacts.require('AuctionCreator')
 
 module.exports = function (deployer) {
-  deployer.deploy(Auction)
+  deployer.deploy(AuctionCreator)
 }
