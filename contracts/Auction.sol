@@ -33,14 +33,15 @@ contract Auction{
         /**@dev the block on Ethereum is updated every 15 secounds*/
         startBlock = block.number; 
         // 1 week = 60*60*24*7 = 604800 / 15(secounds) = 40,320 
-        endBlock = startBlock + 40320;
+        endBlock = startBlock + 4;
         ipfsHash = "";
         //increment = 100 wei
-        bidIncrement = 100;
+        bidIncrement = 1 ether;
 
     }
 
     event AuctionCanceled();
+    event EndAuction();
 
     //modifier for verift if msg.sender not owner
     modifier  notOwner() {
@@ -98,6 +99,34 @@ contract Auction{
         }
     }
 
- 
+    function finishAuction() public {
+        require(auctionState == State.Canceled || block.number > endBlock, "The auction has not finished!");
+        require(msg.sender == owner || bids[msg.sender] > 0, "The address call not is owner!");
 
+        address payable recipient;
+        uint value; 
+
+        if(auctionState == State.Canceled){ //auction was canceled
+            recipient = payable(msg.sender);
+            /**@dev the bids[] is mapping value was deposit. */
+            value = bids[msg.sender];
+        }else{ //auction not canceled
+            if(msg.sender == owner){
+                recipient = owner;
+                value = highestBindingBid;
+            }else{ //this is a bidder
+               if(msg.sender == highestBidder){
+                   recipient = highestBidder;
+                   value = bids[highestBidder] - highestBindingBid;
+               }else{ // this is neither the owner nor the highestBidder
+                    recipient = payable(msg.sender);
+                    value = bids[msg.sender];
+               }
+            }
+        }
+
+        recipient.transfer(value);
+        auctionState = State.Ended;
+        emit EndAuction();
+    }
 }
