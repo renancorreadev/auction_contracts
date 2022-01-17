@@ -2,6 +2,16 @@
 
 pragma solidity >=0.5.0 <0.9.0;
 
+contract AuctionCreator {
+    Auction[] public auctions; 
+
+    function createAuction() public{
+        //create new auction
+        Auction newAuction = new Auction(msg.sender);
+        auctions.push(newAuction);
+    }
+}
+
 contract Auction{
     /** 
         @dev declare all state variables 
@@ -26,8 +36,8 @@ contract Auction{
     string public _name = "Auction";
 
     receive() external payable {}
-    constructor(){
-        owner = payable(msg.sender);
+    constructor(address eoa){
+        owner = payable(eoa);
         auctionState = State.Running;
         //calculate the blocktime: 
         /**@dev the block on Ethereum is updated every 15 secounds*/
